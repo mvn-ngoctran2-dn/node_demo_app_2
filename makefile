@@ -17,7 +17,7 @@ kubebuildimage: kubeappimage
 kubedeploy:
 	@echo ":::build pod"
 	 kubectl apply -f kubernetes/deployment.yaml
-	 kubectl set image deployment/$(DEPLOYMENT_NAME) nodejs-container=harbor.monstar-lab.vn/demo/nodejs-app:"$(SHORT_GIT_COMMIT)" -n demo-project
+#	 kubectl set image deployment/$(DEPLOYMENT_NAME) nodejs-container=harbor.monstar-lab.vn/demo/nodejs-app:"$(SHORT_GIT_COMMIT)" -n demo-project
 kubeservice:
 	@echo ":::create service"
 	 kubectl apply -f kubernetes/service.yaml
