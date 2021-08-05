@@ -10,6 +10,8 @@ pipeline {
             steps {
                 echo 'Pulling ...' + env.CHANGE_BRANCH
                 checkout scm
+                
+                echo "$(whoami)"
             }
         }
 
