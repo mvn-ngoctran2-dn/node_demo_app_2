@@ -14,7 +14,7 @@ spec:
         app: nodejsx
     spec:
       containers:
-      - image: harbor.monstar-lab.vn/nodejs-app:latest
+      - image: harbor.monstar-lab.vn/demo/nodejs-app:latest
         name: nodejs-container
         imagePullPolicy: "Always"
         ports:

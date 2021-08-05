@@ -5,10 +5,8 @@ BASE_TAG=latest
 KUBE_APP_IMAGE=harbor.monstar-lab.vn/demo/nodejs-app
 KUBE_CLUSTER=--server=https://172.16.110.231:6443
 APP_NAME=demo-nodejs
+SHORT_GIT_COMMIT=$(shell git log -1 --pretty=format:%h)
 
-getcommit:
-	cd $(SRC_DIR)
-	SHORT_GIT_COMMIT=$(shell git log -1 --pretty=format:%h)
 kubeappimage:
 	@echo ":::build app image"
 	docker build --rm -f dockers/App.Dockerfile -t $(KUBE_APP_IMAGE):$(BASE_TAG) .
