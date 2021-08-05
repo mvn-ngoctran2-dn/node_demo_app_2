@@ -3,13 +3,15 @@ def localDeploy = false
 pipeline {
     agent any
     environment {
-        KUBECONFIG = '~/.kube/config'
+        KUBECONFIG = '/root/.kube/config'
     }
     stages {
         stage('Fetch') {
             steps {
                 echo 'Pulling ...' + env.CHANGE_BRANCH
                 checkout scm
+                echo "WHO AMI I ??"
+                sh 'echo "$(whoami) and $(id -u)"'
             }
         }
 
