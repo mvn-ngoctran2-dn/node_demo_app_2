@@ -18,20 +18,20 @@ kubeappimage:
 kubebuildimage: kubeappimage
 kubedeploy:
 	@echo ":::build pod"
-	sudo kubectl apply -f kubernetes/deployment.yaml
-	sudo kubectl set image deployment/$(DEPLOYMENT_NAME) nodejs-container=harbor.monstar-lab.vn/demo/nodejs-app:"$(GIT_COMMIT)"
+	 kubectl apply -f kubernetes/deployment.yaml
+	 kubectl set image deployment/$(DEPLOYMENT_NAME) nodejs-container=harbor.monstar-lab.vn/demo/nodejs-app:"$(GIT_COMMIT)"
 kubeservice:
 	@echo ":::create service"
-	sudo kubectl apply -f kubernetes/service.yaml
+	 kubectl apply -f kubernetes/service.yaml
 kubeimages: kubeappimage
 kubeinit:  kubedeploy kubeservice
 kuberollout:
 	@echo "::: rollout"
-	sudo kubectl rollout restart deployment/nodejs-app
+	 kubectl rollout restart deployment/nodejs-app
 kubeup: kubeappimage kubedeploy kubeservice
 kubeupdate: kubeappimage kuberollout
 kubedown:
 	@echo ":::delete deployment"
-	sudo kubectl delete secret $(APP_NAME)-secrets --ignore-not-found
-	sudo kubectl delete deploy $(APP_NAME)-app-deployment --ignore-not-found
-	sudo kubectl delete service $(APP_NAME)-service --ignore-not-found
+	 kubectl delete secret $(APP_NAME)-secrets --ignore-not-found
+	 kubectl delete deploy $(APP_NAME)-app-deployment --ignore-not-found
+	 kubectl delete service $(APP_NAME)-service --ignore-not-found
