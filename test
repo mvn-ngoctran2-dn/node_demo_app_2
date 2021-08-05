@@ -1,0 +1,3 @@
+kubectl get secret regcred -n default -o yaml \
+| sed s/"namespace: default"/"namespace: demo-project"/\
+| kubectl apply -n demo-project -f -

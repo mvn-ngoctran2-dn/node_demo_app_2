@@ -21,6 +21,8 @@ spec:
         - name: http
           containerPort: 3000
           protocol: TCP
+        imagePullSecrets:
+        - name: regcred
         resources:
           requests:
             cpu: 100m
