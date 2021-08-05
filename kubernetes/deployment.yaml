@@ -16,7 +16,7 @@ spec:
       containers:
       - image: ngoctp27/nodejs-demo:latest
         name: nodejs-container
-        imagePullPolicy: "Alaways"
+        imagePullPolicy: "Always"
         ports:
         - name: http
           containerPort: 3000
