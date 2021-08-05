@@ -8,7 +8,7 @@ APP_NAME=demo-nodejs
 
 getcommit:
 	cd $(SRC_DIR)
-	GIT_COMMIT=$(shell git log -1 --pretty=format:%h)
+	SHORT_GIT_COMMIT=$(shell git log -1 --pretty=format:%h)
 kubeappimage:
 	@echo ":::build app image"
 	docker build --rm -f dockers/App.Dockerfile -t $(KUBE_APP_IMAGE):$(BASE_TAG) .
@@ -19,7 +19,7 @@ kubebuildimage: kubeappimage
 kubedeploy:
 	@echo ":::build pod"
 	 kubectl apply -f kubernetes/deployment.yaml
-	 kubectl set image deployment/$(DEPLOYMENT_NAME) nodejs-container=harbor.monstar-lab.vn/demo/nodejs-app:"$(GIT_COMMIT)" -n demo-project
+	 kubectl set image deployment/$(DEPLOYMENT_NAME) nodejs-container=harbor.monstar-lab.vn/demo/nodejs-app:"$(SHORT_GIT_COMMIT)" -n demo-project
 kubeservice:
 	@echo ":::create service"
 	 kubectl apply -f kubernetes/service.yaml
