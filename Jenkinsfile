@@ -21,7 +21,7 @@ pipeline {
  //               slackSend color: "#439FE0", message: "Deploy Service Webfront Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}, refers at: ${env.BUILD_URL}"
                 script {
                     localDeploy=true
-                    sh "sudo make kubeimages env=local"
+                    sh "make kubeimages env=local"
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
  //               slackSend color: "#439FE0", message: "Deploy Service Webfront Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}, refers at: ${env.BUILD_URL}"
                 script {
                     localDeploy=true
-                    sh "sudo make kubeinit env=local"
+                    sh "make kubeinit env=local"
                 }
             }
         }
@@ -46,7 +46,7 @@ pipeline {
 //                slackSend color: "#439FE0", message: "Delete Webfront Service Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}, refers at: ${env.BUILD_URL}"
                 script {
                     localDeploy=true
-                    sh "sudo make kubedown env=local"
+                    sh "make kubedown env=local"
                 }
             }
         }
@@ -58,7 +58,7 @@ pipeline {
    //             slackSend color: "#439FE0", message: "Rollout Webfront Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}, refers at: ${env.BUILD_URL}"
                 script {
                     localDeploy=true
-                    sh "sudo make kubeupdate env=local"
+                    sh "make kubeupdate env=local"
                 }
             }
         }
