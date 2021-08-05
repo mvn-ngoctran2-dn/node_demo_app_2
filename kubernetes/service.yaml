@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-deployment
+  namespace: demo-project
+spec:
+  selector:
+    app: nodejsx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

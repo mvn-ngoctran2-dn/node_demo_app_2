@@ -11,3 +11,5 @@ LICENSE
 .env
 azure-pipelines.yml
 **/node_modules
+makefile
+Jenkinsfile

@@ -1,0 +1,44 @@
+
+
+KUBE_APP_IMAGE=harbor.monstar-lab.vn/demo/nodejs-app
+KUBE_DB_IMAGE=harbor.monstar-lab.vn/demo/nodejs-db
+KUBE_CLUSTER=--server=https://172.16.110.59:6443
+APP_NAME=demo-nodejs
+kubedbimage:
+	@echo ":::build base image"
+	docker build --rm -f dockers/DB.Dockerfile --platform=linux/x86_64 $(BUILD_DB_ARGS) -t $(KUBE_DB_IMAGE) .
+	docker push $(KUBE_DB_IMAGE)
+kubebaseimage:
+	@echo ":::build base image"
+	docker build --rm -f dockers/Base.Dockerfile  -t $(KUBE_BASE_IMAGE):$(BASE_TAG) .
+	docker push $(KUBE_BASE_IMAGE)
+kubeappimage:
+	@echo ":::build app image"
+	docker build --rm -f dockers/App.Dockerfile --build-arg ENV=$(ENVIRONMENT) -t $(KUBE_APP_IMAGE):$(BASE_TAG) .
+	docker push $(KUBE_APP_IMAGE)
+	@echo ":::remove untagged images"
+	docker images -f "dangling=true" -q | xargs -r docker rmi
+kubebuildimage: kubedbimage kubebaseimage kubeappimage
+kubedeploy:
+	@echo ":::create secret keys"
+	sudo kubectl delete secret $(APP_NAME)-secrets --ignore-not-found
+	sudo kubectl create secret generic $(APP_NAME)-secrets --from-env-file=environments/.env.kubernetes
+	@echo ":::create storage if not exist"
+	sudo kubectl apply -f kubernetes/storage.yaml
+	@echo ":::build pod"
+	sudo kubectl apply -f kubernetes/deployment.yaml
+kubeservice:
+	@echo ":::create service"
+	sudo kubectl apply -f kubernetes/service.yaml
+kubeimages: kubedbimage kubebaseimage kubeappimage
+kubeinit:  kubedeploy kubeservice
+kuberollout:
+	@echo "::: rollout"
+	sudo kubectl rollout restart deployment boilerplate-app-deployment
+kubeup: kubeappimage kubedeploy kubeservice
+kubeupdate: kubeappimage kuberollout
+kubedown:
+	@echo ":::delete deployment"
+	sudo kubectl delete secret $(APP_NAME)-secrets --ignore-not-found
+	sudo kubectl delete deploy $(APP_NAME)-app-deployment --ignore-not-found
+	sudo kubectl delete service $(APP_NAME)-service --ignore-not-found

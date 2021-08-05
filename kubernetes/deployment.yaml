@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-deployment
+  namespace: demo-project
+spec:
+  selector:
+    matchLabels:
+      app: nodejsx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nodejsx
+    spec:
+      containers:
+      - image: ngoctp27/nodejs-demo:latest
+        name: nodejs-container
+        imagePullPolicy: "Alaways"
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
