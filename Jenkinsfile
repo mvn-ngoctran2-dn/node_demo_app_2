@@ -15,7 +15,7 @@ pipeline {
 
         stage('Build & Push') {
             when {
-                expression { BRANCH_NAME ==~ /dev/ }
+                expression { CHANGE_TARGET ==~ /dev/ }
             }
             steps {
  //               slackSend color: "#439FE0", message: "Deploy Service Webfront Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}, refers at: ${env.BUILD_URL}"
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Deploy') {
             when {
-                expression { BRANCH_NAME ==~ /dev/ }
+                expression { CHANGE_TARGET ==~ /dev/ }
             }
             steps {
  //               slackSend color: "#439FE0", message: "Deploy Service Webfront Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}, refers at: ${env.BUILD_URL}"
